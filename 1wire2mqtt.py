@@ -26,9 +26,6 @@ STATUSTOPIC = config.get("mqtt", "statustopic")
 POLLINTERVAL = config.getint("mqtt", "pollinterval")
 # [OneWire]
 OWFS_PATH = config.get("onewire", "owfs_path")
-# [log]
-LOGFILE = config.get("log", "logfile")
-LOGLEVEL = config.getint("log", "loglevel")
 # [sensors]
 section_name = "sensors"
 SENSORS = {}

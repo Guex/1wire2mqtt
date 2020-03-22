@@ -1,0 +1,3 @@
+/433/119160/,0x8 (Alarm):"curl http://unlo:dhtvtyysq5@192.168.8.5/io.cgi?io1=f"
+/433/119160/,0x2 (Unlock):"curl http://unlo:dhtvtyysq5@192.168.8.5/io.cgi?io2=f"
+/433/119160/,0x4 (Mute):"curl http://unlo:dhtvtyysq5@192.168.8.5/io.cgi?io3=f"

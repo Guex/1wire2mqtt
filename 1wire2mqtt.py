@@ -58,7 +58,7 @@ def main_loop():
                      for sensors_files in SENSORS[sensor_id]:
                                                     sensor_data[sensors_files]=sensor_parse(sensor_id,sensors_files)
                      ##MAKE TOPIC
-                     TOPIC="/"+ STATUSTOPIC+"/" +sensor_id
+                     TOPIC=STATUSTOPIC+"/" +sensor_id
                      ##MAKE DATA
                      json_data = json.dumps(sensor_data)
                      mqtt_connect(TOPIC,sensor_id,json_data)

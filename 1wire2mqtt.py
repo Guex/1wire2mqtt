@@ -23,6 +23,8 @@ config.read(args.config_file)
 MQTT_HOST = config.get("mqtt", "host")
 MQTT_PORT = config.getint("mqtt", "port")
 MQTT_AUTH = config.getboolean("mqtt", "auth", fallback=False)
+MQTT_USERNAME = config.get("mqtt", "username")
+MQTT_PASSWORD = config.get("mqtt", "password")
 STATUSTOPIC = config.get("mqtt", "statustopic")
 POLLINTERVAL = config.getint("mqtt", "pollinterval")
 # [OneWire]

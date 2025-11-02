@@ -5,7 +5,7 @@ import time
 import os
 import paho.mqtt.client as mqtt
 import argparse
-import ConfigParser
+import configparser
 import setproctitle
 import json
 
@@ -17,11 +17,12 @@ parser.add_argument('config_file', metavar="<config_file>", help="file with conf
 args = parser.parse_args()
 
 # read and parse config file
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 config.read(args.config_file)
 # [mqtt]
 MQTT_HOST = config.get("mqtt", "host")
 MQTT_PORT = config.getint("mqtt", "port")
+MQTT_AUTH = config.getboolean("mqtt", "auth", fallback=False)
 STATUSTOPIC = config.get("mqtt", "statustopic")
 POLLINTERVAL = config.getint("mqtt", "pollinterval")
 # [OneWire]
@@ -38,7 +39,9 @@ setproctitle.setproctitle(APPNAME)
 
 ## MQTT PUBLISH
 def mqtt_connect(TOPIC,sensor_id, json_data):
-    client = mqtt.Client()
+    client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
+    if MQTT_AUTH:
+        client.username_pw_set(username=MQTT_USERNAME , password=MQTT_PASSWORD)
     client.connect(MQTT_HOST, MQTT_PORT)
     client.publish(topic=TOPIC, payload=json_data, qos=0, retain=False)
     client.disconnect()

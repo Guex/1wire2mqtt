@@ -5,7 +5,7 @@ import time
 import os
 import paho.mqtt.client as mqtt
 import argparse
-import ConfigParser
+import configparser
 import setproctitle
 import json
 import subprocess
@@ -21,12 +21,13 @@ parser.add_argument('config_file', metavar="<config_file>", help="file with conf
 args = parser.parse_args()
 
 # read and parse config file
-config = ConfigParser.RawConfigParser()
+config = configparser.RawConfigParser()
 config.read(args.config_file)
 KEYFILE = config.get("global", "keyfile")
 # [mqtt]
 MQTT_HOST = config.get("mqtt", "host")
 MQTT_PORT = config.getint("mqtt", "port")
+MQTT_AUTH = config.getboolean("mqtt", "auth", fallback=False)
 PUB_TOPIC = config.get("mqtt", "pub_topic")
 PUB_MESSAGE = config.get("mqtt", "pub_message")
 APPNAME = "mqtt2action"
@@ -91,6 +92,8 @@ def on_message(client, userdata, message):
                         exec_command(itemAction)
 
 client = mqtt.Client("P1") #create new instance
+if MQTT_AUTH:
+    client.username_pw_set(username=MQTT_USERNAME , password=MQTT_PASSWORD)
 client.on_message=on_message #attach function to callback
 print("connecting to broker")
 client.connect(MQTT_HOST, MQTT_PORT)
